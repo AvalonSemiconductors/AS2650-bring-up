@@ -11,4 +11,4 @@ All the other programs only work properly in the context of the bootloader havin
 
 `AddTest` - Used to track down a silicon bug to do with carry flag generation
 
-All other programs are modifications from (S2650-tools)[https://github.com/89Mods/S2650-tools/tree/main].
+All other programs are modifications from [S2650-tools](https://github.com/89Mods/S2650-tools/tree/main).
