@@ -1,0 +1,26 @@
+GAL22V10
+22V10
+
+Clock RW  WRP  MIO  DB0  DB1 DB2 DC     OPREQ  POR    RSTI GND
+SDI   RST CSB2 CSB1 CSB0 SCK SDO RAMWEB RAMOEB RAMCSB DB0o VCC
+
+; RW: Low = Read, High = Write
+; MIO: Low = IO, High = Mem
+; DC: Low = Command, High = Data
+; RSTI is active high
+; RSTO is active low
+
+/RAMWEB = RW * MIO * WRP
+/RAMOEB = /RW * MIO
+/RAMCSB = MIO
+
+; Latch SDO, SCK and chip selects
+SDO.R = /MIO * DC * WRP * DB0 * OPREQ + MIO * SDO + /WRP * SDO + /DC * SDO + /OPREQ * SDO
+SCK.R = /MIO * DC * WRP * DB1 * OPREQ + MIO * SCK + /WRP * SCK + /DC * SCK + /OPREQ * SCK
+CSB0.R = /MIO * /DC * WRP * OPREQ * DB0 + MIO * CSB0 + DC * CSB0 + /WRP * CSB0 + /OPREQ * CSB1 + /RST
+CSB1.R = /MIO * /DC * WRP * OPREQ * DB1 + MIO * CSB1 + DC * CSB1 + /WRP * CSB1 + /OPREQ * CSB1 + /RST
+CSB2.R = /MIO * /DC * WRP * OPREQ * DB2 + MIO * CSB2 + DC * CSB2 + /WRP * CSB2 + /OPREQ * CSB2 + /RST
+RST = /RSTI * POR
+
+DB0o.R = SDI * /RSTI
+DB0o.E = /RW * /MIO * DC * /RSTI
