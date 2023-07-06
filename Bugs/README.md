@@ -41,4 +41,4 @@ Severity: High
 ### Workarounds
 Additional code must be wrapped around affected instructions to specifically check for these cases and correct them manually.
 
-Note: this only affects cases where the carry flag is needed in future operations, i.e. when adding 32-bit integers comprised of multiple words. Word sizes of 8 and, in the case of addition, 16 bits are not affected if the carry is not needed.
+Note: this only affects cases where the carry flag is needed in future operations, i.e. when adding 32-bit integers comprised of multiple words. Word sizes of 8 and, in the case of addition, 16 bits are not affected if the final carry is not needed further.
