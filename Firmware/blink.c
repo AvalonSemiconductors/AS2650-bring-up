@@ -1,4 +1,5 @@
 #include <defs.h>
+//#include <stub.h>
 
 uint32_t *magic_loc = (uint32_t *)128;
 
@@ -10,11 +11,11 @@ uint32_t *magic_loc = (uint32_t *)128;
 #define SIG_FLAG (1 << 19)
 
 void io_conf_mgmt(const char bus_dir) {
-	reg_mprj_io_0 = GPIO_MODE_MGMT_STD_INPUT_NOPULL;
-	reg_mprj_io_1 = GPIO_MODE_MGMT_STD_OUTPUT;
-	reg_mprj_io_2 = GPIO_MODE_MGMT_STD_INPUT_NOPULL;
-	reg_mprj_io_3 = GPIO_MODE_MGMT_STD_INPUT_NOPULL;
-	reg_mprj_io_4 = GPIO_MODE_MGMT_STD_INPUT_NOPULL;
+    reg_mprj_io_0 = GPIO_MODE_MGMT_STD_INPUT_NOPULL;
+    reg_mprj_io_1 = GPIO_MODE_MGMT_STD_OUTPUT;
+    reg_mprj_io_2 = GPIO_MODE_MGMT_STD_INPUT_NOPULL;
+    reg_mprj_io_3 = GPIO_MODE_MGMT_STD_INPUT_NOPULL;
+    reg_mprj_io_4 = GPIO_MODE_MGMT_STD_INPUT_NOPULL;
 	reg_mprj_io_5 = bus_dir ? GPIO_MODE_MGMT_STD_OUTPUT : GPIO_MODE_MGMT_STD_INPUT_PULLDOWN;
 	reg_mprj_io_6 = bus_dir ? GPIO_MODE_MGMT_STD_OUTPUT : GPIO_MODE_MGMT_STD_INPUT_PULLDOWN;
 	reg_mprj_io_7 = bus_dir ? GPIO_MODE_MGMT_STD_OUTPUT : GPIO_MODE_MGMT_STD_INPUT_PULLDOWN;
@@ -55,73 +56,89 @@ void io_conf_mgmt(const char bus_dir) {
 }
 
 void io_conf_as2650() {
-	reg_mprj_io_0 = GPIO_MODE_MGMT_STD_INPUT_NOPULL;
-	reg_mprj_io_1 = GPIO_MODE_MGMT_STD_OUTPUT;
-	reg_mprj_io_2 = GPIO_MODE_MGMT_STD_INPUT_NOPULL;
-	reg_mprj_io_3 = GPIO_MODE_MGMT_STD_INPUT_NOPULL;
-	reg_mprj_io_4 = GPIO_MODE_MGMT_STD_INPUT_NOPULL;
 
-	reg_mprj_io_5 = GPIO_MODE_USER_STD_BIDIRECTIONAL;
-	reg_mprj_io_6 = GPIO_MODE_USER_STD_BIDIRECTIONAL;
-	reg_mprj_io_7 = GPIO_MODE_USER_STD_BIDIRECTIONAL;
-	reg_mprj_io_8 = GPIO_MODE_USER_STD_BIDIRECTIONAL;
-	reg_mprj_io_9 = GPIO_MODE_USER_STD_BIDIRECTIONAL;
-	reg_mprj_io_10 = GPIO_MODE_USER_STD_BIDIRECTIONAL;
-	reg_mprj_io_11 = GPIO_MODE_USER_STD_BIDIRECTIONAL;
-	reg_mprj_io_12 = GPIO_MODE_USER_STD_BIDIRECTIONAL;
-	reg_mprj_io_13 = GPIO_MODE_USER_STD_INPUT_NOPULL;
-	reg_mprj_io_14 = GPIO_MODE_USER_STD_OUTPUT;
-	reg_mprj_io_15 = GPIO_MODE_USER_STD_OUTPUT;
-	reg_mprj_io_16 = GPIO_MODE_USER_STD_OUTPUT;
-	reg_mprj_io_17 = GPIO_MODE_USER_STD_OUTPUT;
-	reg_mprj_io_18 = GPIO_MODE_USER_STD_OUTPUT;
+//  ======= Useful GPIO mode values =============
 
-	reg_mprj_io_19 = GPIO_MODE_USER_STD_OUTPUT;
-	reg_mprj_io_20 = GPIO_MODE_USER_STD_OUTPUT;
-	reg_mprj_io_21 = GPIO_MODE_USER_STD_OUTPUT;
-	reg_mprj_io_22 = GPIO_MODE_USER_STD_OUTPUT;
-	reg_mprj_io_23 = GPIO_MODE_USER_STD_OUTPUT;
-	reg_mprj_io_24 = GPIO_MODE_USER_STD_OUTPUT;
-	reg_mprj_io_25 = GPIO_MODE_USER_STD_OUTPUT;
-	reg_mprj_io_26 = GPIO_MODE_USER_STD_OUTPUT;
-	reg_mprj_io_27 = GPIO_MODE_USER_STD_OUTPUT;
-	reg_mprj_io_28 = GPIO_MODE_USER_STD_OUTPUT;
-	reg_mprj_io_29 = GPIO_MODE_USER_STD_OUTPUT;
-	reg_mprj_io_30 = GPIO_MODE_USER_STD_OUTPUT;
-	reg_mprj_io_31 = GPIO_MODE_USER_STD_OUTPUT;
-	reg_mprj_io_32 = GPIO_MODE_USER_STD_OUTPUT;
-	reg_mprj_io_33 = GPIO_MODE_MGMT_STD_INPUT_PULLUP;
-	reg_mprj_io_34 = GPIO_MODE_MGMT_STD_INPUT_PULLUP;
-	reg_mprj_io_35 = GPIO_MODE_MGMT_STD_INPUT_PULLUP;
-	reg_mprj_io_36 = GPIO_MODE_MGMT_STD_OUTPUT;
-	reg_mprj_io_37 = GPIO_MODE_MGMT_STD_OUTPUT;
+//      GPIO_MODE_MGMT_STD_INPUT_NOPULL
+//      GPIO_MODE_MGMT_STD_INPUT_PULLDOWN
+//      GPIO_MODE_MGMT_STD_INPUT_PULLUP
+//      GPIO_MODE_MGMT_STD_OUTPUT
+//      GPIO_MODE_MGMT_STD_BIDIRECTIONAL
+//      GPIO_MODE_MGMT_STD_ANALOG
 
-	reg_mprj_xfer = 1;
-	while (reg_mprj_xfer == 1);
+//      GPIO_MODE_USER_STD_INPUT_NOPULL
+//      GPIO_MODE_USER_STD_INPUT_PULLDOWN
+//      GPIO_MODE_USER_STD_INPUT_PULLUP
+//      GPIO_MODE_USER_STD_OUTPUT
+//      GPIO_MODE_USER_STD_BIDIRECTIONAL
+//      GPIO_MODE_USER_STD_ANALOG
+    reg_mprj_io_0 = GPIO_MODE_MGMT_STD_INPUT_NOPULL;
+    reg_mprj_io_1 = GPIO_MODE_MGMT_STD_OUTPUT;
+    reg_mprj_io_2 = GPIO_MODE_MGMT_STD_INPUT_NOPULL;
+    reg_mprj_io_3 = GPIO_MODE_MGMT_STD_INPUT_NOPULL;
+    reg_mprj_io_4 = GPIO_MODE_MGMT_STD_INPUT_NOPULL;
+
+    reg_mprj_io_5 = GPIO_MODE_USER_STD_BIDIRECTIONAL;
+    reg_mprj_io_6 = GPIO_MODE_USER_STD_BIDIRECTIONAL;
+    reg_mprj_io_7 = GPIO_MODE_USER_STD_BIDIRECTIONAL;
+    reg_mprj_io_8 = GPIO_MODE_USER_STD_BIDIRECTIONAL;
+    reg_mprj_io_9 = GPIO_MODE_USER_STD_BIDIRECTIONAL;
+    reg_mprj_io_10 = GPIO_MODE_USER_STD_BIDIRECTIONAL;
+    reg_mprj_io_11 = GPIO_MODE_USER_STD_BIDIRECTIONAL;
+    reg_mprj_io_12 = GPIO_MODE_USER_STD_BIDIRECTIONAL;
+    reg_mprj_io_13 = GPIO_MODE_USER_STD_INPUT_NOPULL;
+    reg_mprj_io_14 = GPIO_MODE_USER_STD_OUTPUT;
+    reg_mprj_io_15 = GPIO_MODE_USER_STD_OUTPUT;
+    reg_mprj_io_16 = GPIO_MODE_USER_STD_OUTPUT;
+    reg_mprj_io_17 = GPIO_MODE_USER_STD_OUTPUT;
+    reg_mprj_io_18 = GPIO_MODE_USER_STD_OUTPUT;
+
+    reg_mprj_io_19 = GPIO_MODE_USER_STD_OUTPUT;
+    reg_mprj_io_20 = GPIO_MODE_USER_STD_OUTPUT;
+    reg_mprj_io_21 = GPIO_MODE_USER_STD_OUTPUT;
+    reg_mprj_io_22 = GPIO_MODE_USER_STD_OUTPUT;
+    reg_mprj_io_23 = GPIO_MODE_USER_STD_OUTPUT;
+    reg_mprj_io_24 = GPIO_MODE_USER_STD_OUTPUT;
+    reg_mprj_io_25 = GPIO_MODE_USER_STD_OUTPUT;
+    reg_mprj_io_26 = GPIO_MODE_USER_STD_OUTPUT;
+    reg_mprj_io_27 = GPIO_MODE_USER_STD_OUTPUT;
+    reg_mprj_io_28 = GPIO_MODE_USER_STD_OUTPUT;
+    reg_mprj_io_29 = GPIO_MODE_USER_STD_OUTPUT;
+    reg_mprj_io_30 = GPIO_MODE_USER_STD_OUTPUT;
+    reg_mprj_io_31 = GPIO_MODE_USER_STD_OUTPUT;
+    reg_mprj_io_32 = GPIO_MODE_USER_STD_OUTPUT;
+    reg_mprj_io_33 = GPIO_MODE_MGMT_STD_INPUT_PULLUP;
+    reg_mprj_io_34 = GPIO_MODE_MGMT_STD_INPUT_PULLUP;
+    reg_mprj_io_35 = GPIO_MODE_MGMT_STD_INPUT_PULLUP;
+    reg_mprj_io_36 = GPIO_MODE_MGMT_STD_OUTPUT;
+    reg_mprj_io_37 = GPIO_MODE_MGMT_STD_OUTPUT;
+
+    // Initiate the serial transfer to configure IO
+    reg_mprj_xfer = 1;
+    while (reg_mprj_xfer == 1);
 }
 
 void delay(const int d) {
-	/* Configure timer for a single-shot countdown */
+    /* Configure timer for a single-shot countdown */
 	reg_timer0_config = 0;
 	reg_timer0_data = d;
-	reg_timer0_config = 1;
+    reg_timer0_config = 1;
 
-	// Loop, waiting for value to reach zero
-reg_timer0_update = 1;  // latch current value
-while (reg_timer0_value > 0) reg_timer0_update = 1;
+    // Loop, waiting for value to reach zero
+   reg_timer0_update = 1;  // latch current value
+   while (reg_timer0_value > 0) reg_timer0_update = 1;
 }
 
 void self_reset() {
-	reg_gpio_mode1 = 1;
-	reg_gpio_mode0 = 0;
-	reg_gpio_ien = 1;
-	reg_gpio_oeb = 0;
-	reg_gpio_out = 1;
+    reg_gpio_mode1 = 1;
+    reg_gpio_mode0 = 0;
+    reg_gpio_ien = 1;
+    reg_gpio_oeb = 0;
+    reg_gpio_out = 1;
 }
 
 uint32_t reg_mprj_datah_mirror = 0;
 
-// Set state of CRVL OK LED
 void crvl_ok(const char state) {
 	if(state) {
 		reg_mprj_datah_mirror = reg_mprj_datah = reg_mprj_datah_mirror | (1 << 4) | (1 << 5);
@@ -131,7 +148,6 @@ void crvl_ok(const char state) {
 	}
 }
 
-// Blink CVRL OK LED to indicate error condition
 void error_out() {
 	while(1) {
 		delay(4000000);
@@ -143,7 +159,6 @@ void error_out() {
 
 #define MEM_LENGTH 8192
 
-// AS2650 bootloader program binary data
 const uint32_t pgm[] = {
 	0xc0,0x04,0x00,0x93,0x04,0x20,0x92,0x3f,0x01,0x6b,0x3f,0x01,0xac,0x04,0xf9,
 	0xcc,0x18,0x07,0x3f,0x02,0x3b,0x0c,0x18,0x07,0x3f,0x02,0x3b,0x3f,0x02,0x7c,0x04,
@@ -220,14 +235,8 @@ const uint32_t pgm[] = {
 };
 const uint32_t pgm_len = 1131;
 
-/*
- * This program initializes the 61C256 SRAM with a bootloader program using the management controller
- * It then uses gpio to reset itself after applying a I/O config to allow the AS2650 to use the I/Os
- * This doubles as a workaround to the power-up I/O config being incorrect
- */
-
 void main() {
-	// Configure All LA probes as inputs to the cpu
+    // Configure All LA probes as inputs to the cpu
 	reg_la0_oenb = reg_la0_iena = 0x00000000;    // [31:0]
 	reg_la1_oenb = reg_la1_iena = 0x00000000;    // [63:32]
 	reg_la2_oenb = reg_la2_iena = 0x00000000;    // [95:64]
@@ -235,12 +244,10 @@ void main() {
 	
 	reg_mprj_datal = 0;
 	
-	//A specific memory address containing a magic number is used to detect if a self-reset has already taken place
-	if(*magic_loc != 0x5708CDAB) {
+    if(*magic_loc != 0x5708CDAB) {
 		reg_mprj_datah = reg_mprj_datah_mirror = 0;
 		delay(1000000); //Allow other board components time to power-up
 	}else {
-		//Toggle LED quickly so its not too bright
 		while(1) {
 			crvl_ok(0);
 			crvl_ok(0);
@@ -248,8 +255,7 @@ void main() {
 		}
 	}
 	
-	//All this code executes only on first power-up
-	reg_mprj_datal = SIG_MIO | SIG_RW | SIG_OPREQ;
+	reg_mprj_datal = SIG_MIO | SIG_RW | SIG_OPREQ | SIG_WRP;
 	reg_mprj_datah = 0;
 	io_conf_mgmt(0);
 	delay(200);
@@ -257,7 +263,7 @@ void main() {
 	delay(200);
 	uint16_t pos = 0;
 	uint32_t val_a_i;
-	for(uint16_t i = 0; i < MEM_LENGTH; i++) { //Write
+	for(uint16_t i = 0; i < MEM_LENGTH; i++) {
 		crvl_ok((i >> 5) & 1);
 #ifdef REPEAT
 		uint8_t val = pgm[pos];
@@ -270,13 +276,13 @@ void main() {
 #endif
 		val_a_i = (uint32_t)val << 5;
 		val_a_i |= (uint32_t)i << 20;
-		reg_mprj_datal = SIG_MIO | SIG_RW | val_a_i;
+		reg_mprj_datal = SIG_MIO | SIG_RW | val_a_i | SIG_WRP;
 		reg_mprj_datah_mirror &= 0xFFFFFFFE;
 		reg_mprj_datah_mirror |= (i >> 12) & 1;
 		reg_mprj_datah = reg_mprj_datah_mirror;
-		reg_mprj_datal = SIG_MIO | SIG_RW | val_a_i | SIG_OPREQ | SIG_WRP;
-		for(uint8_t i = 0; i < 3; i++);
 		reg_mprj_datal = SIG_MIO | SIG_RW | val_a_i | SIG_OPREQ;
+		for(uint8_t i = 0; i < 3; i++);
+		reg_mprj_datal = SIG_MIO | SIG_RW | val_a_i | SIG_OPREQ | SIG_WRP;
 	}
 	crvl_ok(0);
 	
@@ -284,7 +290,7 @@ void main() {
 	delay(200);
 	pos = 0;
 	reg_mprj_datal = SIG_MIO | SIG_OPREQ;
-	for(uint16_t i = 0; i < MEM_LENGTH; i++) { //Verify
+	for(uint16_t i = 0; i < MEM_LENGTH; i++) {
 #ifdef REPEAT
 		uint8_t expected = pgm[pos];
 		pos++;
@@ -308,7 +314,7 @@ void main() {
 	
 	*magic_loc = 0x5708CDAB;
 	io_conf_mgmt(0);
-	crvl_ok(1);
+    crvl_ok(1);
 	delay(4000000);
 	io_conf_as2650();
 	delay(200);
