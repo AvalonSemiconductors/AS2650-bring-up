@@ -34,16 +34,20 @@ M32_RB2          equ mem_start+22
 M32_RB3          equ mem_start+23
 M32_RB4          equ mem_start+24
 M32_RB5          equ mem_start+25
-M32_CTR          equ mem_start+26
-M32_CTR2         equ mem_start+27
-R0_BACK          equ mem_start+28
-R1_BACK          equ mem_start+29
-R2_BACK          equ mem_start+30
-R3_BACK          equ mem_start+31
-SEED_1           equ mem_start+32
-SEED_2           equ mem_start+33
-SEED_3           equ mem_start+34
-SEED_4           equ mem_start+35
+M32_RB6          equ mem_start+26
+M32_RB7          equ mem_start+27
+M32_RB8          equ mem_start+28
+M32_CTR          equ mem_start+29
+M32_CTR2         equ mem_start+30
+R0_BACK          equ mem_start+31
+R1_BACK          equ mem_start+32
+R2_BACK          equ mem_start+33
+R3_BACK          equ mem_start+34
+SEED_1           equ mem_start+35
+SEED_2           equ mem_start+36
+SEED_3           equ mem_start+37
+SEED_4           equ mem_start+38
+M32_TMP          equ mem_start+39
 
 portb_state equ mem_start+100
 R0_BACK_U          equ mem_start+101
@@ -57,8 +61,8 @@ sel_gpio equ 3
 spi_idle equ 7
 
 ; Emissions Controller vars & constants
-ADVANCE          equ 0x1B005
-ADVANCE_SLOW     equ 0x0F004
+ADVANCE          equ 0x1A005
+ADVANCE_SLOW     equ 0x0E104
 A_1              equ mem_start+512
 A_2              equ mem_start+513
 A_3              equ mem_start+514
@@ -457,12 +461,20 @@ fixed_mul:
 	cpsl PSL_BANK
 	ppsl PSL_WITH_CARRY+PSL_LOGICAL_COMP
 	eorz,r0
+	stra,r0 M32_RB1
+	stra,r0 M32_RB2
+	stra,r0 M32_RB3
+	stra,r0 M32_RB4
+	stra,r0 M32_RB5
+	stra,r0 M32_RB6
+	stra,r0 M32_RB7
+	stra,r0 M32_RB8
+	
+	eorz,r0
 	stra,r0 M32_SIGN
-
-	loda,r1 M32_UNSIGNED
-	;comi,r1 0
-	bcfa,eq fixed_mul_unsigned
-
+	coma,r0 M32_UNSIGNED
+	bcfa,eq mul_32x32_unsigned
+	
 	loda,r1 M32_A4
 	andi,r1 128
 	bctr,eq fixed_mul_not_neg_a
@@ -514,50 +526,99 @@ fixed_mul_not_neg_a:
 	eori,r2 1
 	stra,r2 M32_SIGN
 fixed_mul_not_neg_b:
-fixed_mul_unsigned:
-
-	eorz r0
-	strz r1
-	stra,r0 M32_RB1
-	stra,r0 M32_RB2
-	stra,r0 M32_RB3
-	stra,r0 M32_RB4
+mul_32x32_unsigned:
+	lodi,r2 255
+mul_32x32_loop:
+	loda,r0 M32_A1,r2+
+	stra,r0 M32_TMP
+	
+	; Begin mul_8x32_hw
+	ppsl PSL_BANK
+	
+	; 1
+	loda,r0 M32_TMP
+	loda,r1 M32_B1
+	mul
+	cpsl PSL_CARRY_FLAG
+	adda,r2 M32_RB4
+	stra,r2 M32_RB4
+	tpsl PSL_CARRY_FLAG
+	bcfr,eq nofix469
+	comi,r3 255
+	bctr,eq fixed471
+nofix469:
+	loda,r0 M32_RB5
+	addz,r3
 	stra,r0 M32_RB5
-	ppsl PSL_BANK
-	loda,r0 M32_B1
-	strz r1
-	loda,r0 M32_B2
-	strz r2
-	loda,r0 M32_B3
-	strz r3
+fixed471:
+	loda,r3 M32_RB6
+	addi,r3 0
+	stra,r3 M32_RB6
+	loda,r3 M32_RB7
+	addi,r3 0
+	stra,r3 M32_RB7
+	loda,r3 M32_RB8
+	addi,r3 0
+	stra,r3 M32_RB8
+	
+	; 2
+	loda,r0 M32_TMP
+	loda,r1 M32_B2
+	mul
+	cpsl PSL_CARRY_FLAG
+	adda,r2 M32_RB5
+	stra,r2 M32_RB5
+	tpsl PSL_CARRY_FLAG
+	bcfr,eq nofix488
+	comi,r3 255
+	bctr,eq fixed490
+nofix488:
+	loda,r0 M32_RB6
+	addz,r3
+	stra,r0 M32_RB6
+fixed490:
+	loda,r3 M32_RB7
+	addi,r3 0
+	stra,r3 M32_RB7
+	loda,r3 M32_RB8
+	addi,r3 0
+	stra,r3 M32_RB8
+	
+	; 3
+	loda,r0 M32_TMP
+	loda,r1 M32_B3
+	mul
+	cpsl PSL_CARRY_FLAG
+	adda,r2 M32_RB6
+	stra,r2 M32_RB6
+	tpsl PSL_CARRY_FLAG
+	bcfr,eq nofix518
+	comi,r3 255
+	bctr,eq fixed520
+nofix518:
+	loda,r0 M32_RB7
+	addz,r3
+	stra,r0 M32_RB7
+fixed520:
+	loda,r3 M32_RB8
+	addi,r3 0
+	stra,r3 M32_RB8
+	
+	; 4
+	loda,r0 M32_TMP
+	loda,r1 M32_B4
+	mul
+	cpsl PSL_CARRY_FLAG
+	adda,r2 M32_RB7
+	stra,r2 M32_RB7
+	adda,r3 M32_RB8
+	stra,r3 M32_RB8
+	
 	cpsl PSL_BANK
-	loda,r0 M32_B4
-	strz r1
-	eorz r0
-	strz r3
-	stra,r0 M32_CTR2
-	strz r2
-fixed_mul_loop:
-	loda,r0 M32_A1,r2
-	strz r2
-	bsta,un mul32_segment
-	loda,r2 M32_CTR2
-	;comi,r2 3
-	lodz,r2
-	eori,r0 3
-	bctr,eq fixed_mul_loop_end
-	stra,r1 M32_CTR
-	ppsl PSL_BANK
-	lodz r2
-	strz r1
-	lodz r3
-	strz r2
-	loda,r3 M32_CTR
-	cpsl PSL_BANK
-	lodz r3
-	strz r1
-	eorz r0
-	strz r3
+	; End mul_8x32_hw
+	comi,r2 3
+	bcta,eq mul_32x32_end
+	
 	loda,r0 M32_RB2
 	stra,r0 M32_RB1
 	loda,r0 M32_RB3
@@ -566,41 +627,76 @@ fixed_mul_loop:
 	stra,r0 M32_RB3
 	loda,r0 M32_RB5
 	stra,r0 M32_RB4
-	eorz r0
+	loda,r0 M32_RB6
 	stra,r0 M32_RB5
-	cpsl PSL_CARRY_FLAG
-	addi,r2 1
-	stra,r2 M32_CTR2
-	bcta,un fixed_mul_loop
-fixed_mul_loop_end:
-    loda,r0 M32_SIGN
-    ;comi,r0 0
-    bcfr,eq fixed_mul_negate_res
-	loda,r0 M32_RB1
-	stra,r0 M32_R1
-	loda,r0 M32_RB2
-	stra,r0 M32_R2
-	loda,r0 M32_RB3
-	stra,r0 M32_R3
-	loda,r0 M32_RB4
+	loda,r0 M32_RB7
+	stra,r0 M32_RB6
+	loda,r0 M32_RB8
+	stra,r0 M32_RB7
+	eorz,r0
+	stra,r0 M32_RB8
+	bcta,un mul_32x32_loop
+mul_32x32_end:
+	loda,r0 M32_RB7
 	stra,r0 M32_R4
-	bctr,un fixed_mul_no_negate_res
-fixed_mul_negate_res:
+	loda,r0 M32_RB6
+	stra,r0 M32_R3
+	loda,r0 M32_RB5
+	stra,r0 M32_R2
+	loda,r0 M32_RB4
+	stra,r0 M32_R1
+    loda,r0 M32_SIGN
+    comi,r0 0
+    bcta,eq fixed_mul_no_negate_res
     lodi,r2 255
     lodi,r3 0
-    loda,r0 M32_RB1
+    cpsl PSL_CARRY_FLAG
+    ;loda,r0 M32_RB1
+    ;eorz r2
+    ;addi,r0 1
+    ;stra,r0 M32_RB1
+    ;loda,r0 M32_RB2
+    ;eorz r2
+    ;addz r3
+    ;stra,r0 M32_RB2
+    ;loda,r0 M32_RB3
+    ;eorz r2
+    ;addz r3
+    ;stra,r0 M32_RB3
+    ;loda,r0 M32_RB4
+    ;eorz r2
+    ;addz r3
+    ;stra,r0 M32_RB4
+    ;loda,r0 M32_RB5
+    ;eorz r2
+    ;addz r3
+    ;stra,r0 M32_RB5
+    ;loda,r0 M32_RB6
+    ;eorz r2
+    ;addz r3
+    ;stra,r0 M32_RB6
+    ;loda,r0 M32_RB7
+    ;eorz r2
+    ;addz r3
+    ;stra,r0 M32_RB7
+    ;loda,r0 M32_RB8
+    ;eorz r2
+    ;addz r3
+    ;stra,r0 M32_RB8
+    cpsl PSL_CARRY_FLAG
+    loda,r0 M32_R1
     eorz r2
     addi,r0 1
     stra,r0 M32_R1
-    loda,r0 M32_RB2
+    loda,r0 M32_R2
     eorz r2
     addz r3
     stra,r0 M32_R2
-    loda,r0 M32_RB3
+    loda,r0 M32_R3
     eorz r2
     addz r3
     stra,r0 M32_R3
-    loda,r0 M32_RB4
+    loda,r0 M32_R4
     eorz r2
     addz r3
     stra,r0 M32_R4
@@ -610,74 +706,6 @@ fixed_mul_no_negate_res:
 	loda,r0 R0_BACK
 	loda,r1 R1_BACK
 	loda,r2 R2_BACK
-	retc,un
-
-; Segment arg A in r2
-; Segment arg B in memory at 1.r1 - 1.r2 - 1.r3 - 0.r1 - 0.r3
-; Shifted result buffer in memory at M32_RB1 - M32_RB5
-mul32_segment:
-	lodi,r0 8
-mul32_segment_loop:
-	stra,r0 M32_CTR
-	rrr,r2
-	tpsl PSL_CARRY_FLAG
-	bcfa,eq mul32_segment_no_carry
-	cpsl PSL_CARRY_FLAG
-	ppsl PSL_BANK
-	; 1
-	lodz,r1
-	adda,r0 M32_RB1
-	stra,r0 M32_RB1
-	
-	; 2
-	comi,r2 255
-	bcfr,eq nofix627
-	tpsl 1
-	bctr,eq fixed629
-nofix627:
-	loda,r0 M32_RB2
-	addz,r2
-	stra,r0 M32_RB2
-fixed629:
-	
-	; 3
-	comi,r3 255
-	bcfr,eq nofix638
-	tpsl 1
-	bctr,eq fixed640
-nofix638:
-	loda,r0 M32_RB3
-	addz,r3
-	stra,r0 M32_RB3
-fixed640:
-	
-	; 4
-	cpsl PSL_BANK
-	comi,r1 255
-	bcfr,eq nofix650
-	tpsl 1
-	bctr,eq fixed652
-nofix650:
-	loda,r0 M32_RB4
-	addz,r1
-	stra,r0 M32_RB4
-fixed652:
-	
-	; 5
-	lodz,r3
-	adda,r0 M32_RB5
-	stra,r0 M32_RB5
-mul32_segment_no_carry:
-	cpsl PSL_CARRY_FLAG
-	ppsl PSL_BANK
-	rrl,r1
-	rrl,r2
-	rrl,r3
-	cpsl PSL_BANK
-	rrl,r1
-	rrl,r3
-	loda,r0 M32_CTR
-	bdra,r0 mul32_segment_loop
 	retc,un
 
 xorshift:
