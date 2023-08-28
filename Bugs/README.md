@@ -19,13 +19,12 @@ Severity: Low
 ### Workarounds
 The management controller’s gpio pin can be used to generate a reset pulse and allow the management controller to reset both itself and the AS2650 after applying the I/O config.
 
-## Indirect addressed branch instructions do not work
-The condition that causes the control logic to switch a branch or branch to subroutine instruction to read the branch target from a memory location pointed to by its argument cannot trigger.
-Opcodes for indirect addressed branches will instead incorrectly execute as regular absolute branches.
+## Indirect, relative addressed branch instructions do not work
+The condition that causes the control logic to switch a relative branch or relative branch to subroutine instruction to read the branch target from a memory location pointed to by its argument cannot trigger.
 
 Severity: Medium, breaks Signetics 2650 binary-compatibility
 ### Workarounds
-A whole absolute branch instruction can be written out into RAM instead, and be branched to, to cause a indirect branch.
+Absolute, indirect branches/calls still work.
 
 ## Indexed addressing does not work on arithmetic and logic operations
 Indexed addressing only appears to work on load/store instructions. Instructions such as `adda,r0 mem_loc,r3+` will not execute correctly. Indexed addressing cannot be used on instructions not of the load/store type.
@@ -33,6 +32,18 @@ Indexed addressing only appears to work on load/store instructions. Instructions
 Severity: Medium, breaks Signetics 2650 binary-compatibility
 ### Workarounds
 If the argument to an affected instruction must come from an indexed location, it can instead be first loaded into a CPU register and then used.
+
+## Return instruction takes 256 clock cycles to complete
+The cycle counter is not reset to 0 after the instruction finished executing, causing the processor to become stuck for 253 additional clock cycles, until the counter rolls over.
+
+Severity: Medium
+### Workarounds
+Use pop instruction to obtain topmost bytes in call stack, and use a indirect addressed branch to return.
+
+## Push instruction writes to wrong location
+Push instruction writes to where the stack pointer is pointing, not the address before.
+
+Severity: Medium
 
 ## Incorrect carry generation on subtraction of 0 or addition of 255 while carry flag is set
 Subtracting 0 from any register, or adding 255 to any register, while the carry flag is set, will cause the carry flag to be cleared, which is incorrect. However, the register will be correctly modified.
