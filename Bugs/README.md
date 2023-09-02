@@ -45,6 +45,11 @@ Push instruction writes to where the stack pointer is pointing, not the address 
 
 Severity: Medium
 
+## Indirect indexed store instructions do not work
+The address appears to be computed correctly, but no value is ever output on the bus.
+
+Severity: High
+
 ## Incorrect carry generation on subtraction of 0 or addition of 255 while carry flag is set
 Subtracting 0 from any register, or adding 255 to any register, while the carry flag is set, will cause the carry flag to be cleared, which is incorrect. However, the register will be correctly modified.
 
