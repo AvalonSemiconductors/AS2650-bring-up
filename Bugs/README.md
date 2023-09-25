@@ -19,6 +19,11 @@ Severity: Low
 ### Workarounds
 The management controller’s gpio pin can be used to generate a reset pulse and allow the management controller to reset both itself and the AS2650 after applying the I/O config.
 
+## Interdigit Carry is never generated correctly
+During add and subtract instructions, the IDC is simply set to the 4th bit of the result, which is wrong.
+
+Severity: Low (don’t care about BCD anyways)
+
 ## Indirect, relative addressed branch instructions do not work
 The condition that causes the control logic to switch a relative branch or relative branch to subroutine instruction to read the branch target from a memory location pointed to by its argument cannot trigger.
 
