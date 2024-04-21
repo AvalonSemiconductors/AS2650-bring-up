@@ -81,6 +81,7 @@ XX_2             equ mem_start+526
 XX_3             equ mem_start+527
 BTN_STATE        equ mem_start+528
 SLOW_EMISS       equ mem_start+529
+ret_workaround   equ mem_start+532
 
 org 0
 programentry:
@@ -703,14 +704,20 @@ mul_32x32_end:
 fixed_mul_no_negate_res:
 	loda,r0 PSL_BACK1
 	lpsl
+	loda,r2 R2_BACK
+	pop
+	stra,r0 ret_workaround
+	stra,r1 ret_workaround+1
 	loda,r0 R0_BACK
 	loda,r1 R1_BACK
-	loda,r2 R2_BACK
-	retc,un
+	bcta,un *ret_workaround
 
 xorshift:
 	spsl
 	stra,r0 PSL_BACK1
+	pop
+	stra,r0 ret_workaround
+	stra,r1 ret_workaround+1
 	ppsl PSL_WITH_CARRY
 	cpsl PSL_BANK
 	lodi,r0 5
@@ -763,7 +770,7 @@ xorshift_loop_2:
 	stra,r3 SEED_4
 	loda,r0 PSL_BACK1
 	lpsl
-	retc,un
+	bcta,un *ret_workaround
 
 	; Send contents of r0 over SPI, ignoring serial in
 spi_send:

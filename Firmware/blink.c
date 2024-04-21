@@ -248,6 +248,7 @@ void main() {
 		reg_mprj_datah = reg_mprj_datah_mirror = 0;
 		delay(1000000); //Allow other board components time to power-up
 	}else {
+		*magic_loc = 0;
 		while(1) {
 			crvl_ok(0);
 			crvl_ok(0);
