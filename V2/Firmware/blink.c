@@ -113,29 +113,40 @@ void blank_io() {
     reg_mprj_datal = 0;
 }
 
-void configure_io_as2650() {
+#undef RAM_DEBUG
+
+#ifdef RAM_DEBUG
+const uint32_t pgm[] = {
+	0x04c0,0x9300,0x2004,0x7692,0x7440,0x1f40,0x2900,0x4304,0x00d4,0x48d4,0x49d4,0x1004,0x43d4,0xd420,0xd442,
+	0x5441,0xd44f,0xc002,0xc0c0,0x1bc0,0x7674,0x3b40,0x7406,0x3b40,0x1b02,0x0476,0xc002,0x0405,0x06c0,0xc0ff,0xc0c0,
+	0xc0c0,0x79fa,0xf9c0,0xc073,0x6df8,0x17c0,0x1b40,0xffffff7d,
+	'C','h','i','r','p','!'
+};
+const uint32_t pgm_len = 45;
+
+void configure_io_ramwrite() {
 	reg_mprj_io_0 = GPIO_MODE_USER_STD_INPUT_PULLUP;
     reg_mprj_io_1 = GPIO_MODE_MGMT_STD_OUTPUT;
-    reg_mprj_io_2 = GPIO_MODE_MGMT_STD_INPUT_NOPULL;
+    reg_mprj_io_2 = GPIO_MODE_USER_STD_OUTPUT;
     reg_mprj_io_3 = GPIO_MODE_MGMT_STD_INPUT_NOPULL;
-    reg_mprj_io_4 = GPIO_MODE_MGMT_STD_INPUT_NOPULL;
-	reg_mprj_io_5 = GPIO_MODE_USER_STD_BIDIRECTIONAL;
-	reg_mprj_io_6 = GPIO_MODE_USER_STD_BIDIRECTIONAL;
-	reg_mprj_io_7 = GPIO_MODE_USER_STD_BIDIRECTIONAL;
-	reg_mprj_io_8 = GPIO_MODE_USER_STD_BIDIRECTIONAL;
-	reg_mprj_io_9 = GPIO_MODE_USER_STD_BIDIRECTIONAL;
-	reg_mprj_io_10 = GPIO_MODE_USER_STD_BIDIRECTIONAL;
-	reg_mprj_io_11 = GPIO_MODE_USER_STD_BIDIRECTIONAL;
-	reg_mprj_io_12 = GPIO_MODE_USER_STD_BIDIRECTIONAL;
-	reg_mprj_io_13 = GPIO_MODE_USER_STD_OUTPUT;
-	reg_mprj_io_14 = GPIO_MODE_USER_STD_OUTPUT;
-	reg_mprj_io_15 = GPIO_MODE_USER_STD_OUTPUT;
-	reg_mprj_io_16 = GPIO_MODE_USER_STD_OUTPUT;
+    reg_mprj_io_4 = GPIO_MODE_USER_STD_INPUT_NOPULL;
+	reg_mprj_io_5 = GPIO_MODE_MGMT_STD_OUTPUT;
+	reg_mprj_io_6 = GPIO_MODE_MGMT_STD_OUTPUT;
+	reg_mprj_io_7 = GPIO_MODE_MGMT_STD_OUTPUT;
+	reg_mprj_io_8 = GPIO_MODE_MGMT_STD_OUTPUT;
+	reg_mprj_io_9 = GPIO_MODE_MGMT_STD_OUTPUT;
+	reg_mprj_io_10 = GPIO_MODE_MGMT_STD_OUTPUT;
+	reg_mprj_io_11 = GPIO_MODE_MGMT_STD_OUTPUT;
+	reg_mprj_io_12 = GPIO_MODE_MGMT_STD_OUTPUT;
+	reg_mprj_io_13 = GPIO_MODE_MGMT_STD_OUTPUT;
+	reg_mprj_io_14 = GPIO_MODE_MGMT_STD_OUTPUT;
+	reg_mprj_io_15 = GPIO_MODE_MGMT_STD_OUTPUT;
+	reg_mprj_io_16 = GPIO_MODE_MGMT_STD_OUTPUT;
 	reg_mprj_io_17 = GPIO_MODE_USER_STD_OUTPUT;
 	reg_mprj_io_18 = GPIO_MODE_USER_STD_OUTPUT;
 	reg_mprj_io_19 = GPIO_MODE_USER_STD_BIDIRECTIONAL;
 	reg_mprj_io_20 = GPIO_MODE_USER_STD_BIDIRECTIONAL;
-	reg_mprj_io_21 = GPIO_MODE_USER_STD_BIDIRECTIONAL;
+	reg_mprj_io_21 = GPIO_MODE_USER_STD_INPUT_PULLUP;
 	reg_mprj_io_22 = GPIO_MODE_USER_STD_BIDIRECTIONAL;
 	reg_mprj_io_23 = GPIO_MODE_USER_STD_BIDIRECTIONAL;
 	reg_mprj_io_24 = GPIO_MODE_USER_STD_BIDIRECTIONAL;
@@ -156,6 +167,61 @@ void configure_io_as2650() {
     reg_mprj_xfer = 1;
     while (reg_mprj_xfer == 1);
     reg_mprj_datah = 0;
+    reg_mprj_datal = (1 << 15) | (1 << 16);
+}
+#endif
+
+void configure_io_as2650() {
+	reg_mprj_io_0 = GPIO_MODE_USER_STD_INPUT_PULLUP;
+    reg_mprj_io_1 = GPIO_MODE_MGMT_STD_OUTPUT;
+    reg_mprj_io_2 = GPIO_MODE_USER_STD_OUTPUT;
+    reg_mprj_io_3 = GPIO_MODE_MGMT_STD_INPUT_PULLUP;
+    reg_mprj_io_4 = GPIO_MODE_USER_STD_INPUT_NOPULL;
+	reg_mprj_io_5 = GPIO_MODE_USER_STD_BIDIRECTIONAL;
+	reg_mprj_io_6 = GPIO_MODE_USER_STD_BIDIRECTIONAL;
+	reg_mprj_io_7 = GPIO_MODE_USER_STD_BIDIRECTIONAL;
+	reg_mprj_io_8 = GPIO_MODE_USER_STD_BIDIRECTIONAL;
+	reg_mprj_io_9 = GPIO_MODE_USER_STD_BIDIRECTIONAL;
+	reg_mprj_io_10 = GPIO_MODE_USER_STD_BIDIRECTIONAL;
+	reg_mprj_io_11 = GPIO_MODE_USER_STD_BIDIRECTIONAL;
+	reg_mprj_io_12 = GPIO_MODE_USER_STD_BIDIRECTIONAL;
+	reg_mprj_io_13 = GPIO_MODE_USER_STD_OUTPUT;
+	reg_mprj_io_14 = GPIO_MODE_USER_STD_OUTPUT;
+	reg_mprj_io_15 = GPIO_MODE_USER_STD_OUTPUT;
+#ifdef RAM_DEBUG
+	reg_mprj_io_16 = GPIO_MODE_MGMT_STD_OUTPUT;
+#else
+	reg_mprj_io_16 = GPIO_MODE_USER_STD_OUTPUT;
+#endif
+	reg_mprj_io_17 = GPIO_MODE_USER_STD_OUTPUT;
+	reg_mprj_io_18 = GPIO_MODE_USER_STD_OUTPUT;
+	reg_mprj_io_19 = GPIO_MODE_USER_STD_BIDIRECTIONAL;
+	reg_mprj_io_20 = GPIO_MODE_USER_STD_BIDIRECTIONAL;
+	reg_mprj_io_21 = GPIO_MODE_USER_STD_INPUT_PULLUP;
+	reg_mprj_io_22 = GPIO_MODE_USER_STD_BIDIRECTIONAL;
+	reg_mprj_io_23 = GPIO_MODE_USER_STD_BIDIRECTIONAL;
+	reg_mprj_io_24 = GPIO_MODE_USER_STD_BIDIRECTIONAL;
+	reg_mprj_io_25 = GPIO_MODE_USER_STD_BIDIRECTIONAL;
+	reg_mprj_io_26 = GPIO_MODE_USER_STD_BIDIRECTIONAL;
+	reg_mprj_io_27 = GPIO_MODE_USER_STD_BIDIRECTIONAL;
+	reg_mprj_io_28 = GPIO_MODE_USER_STD_BIDIRECTIONAL;
+	reg_mprj_io_29 = GPIO_MODE_USER_STD_BIDIRECTIONAL;
+	reg_mprj_io_30 = GPIO_MODE_USER_STD_BIDIRECTIONAL;
+	reg_mprj_io_31 = GPIO_MODE_USER_STD_BIDIRECTIONAL;
+	reg_mprj_io_32 = GPIO_MODE_USER_STD_BIDIRECTIONAL;
+	reg_mprj_io_33 = GPIO_MODE_USER_STD_BIDIRECTIONAL;
+	reg_mprj_io_34 = GPIO_MODE_USER_STD_BIDIRECTIONAL;
+	reg_mprj_io_35 = GPIO_MODE_USER_STD_OUTPUT;
+	reg_mprj_io_36 = GPIO_MODE_USER_STD_OUTPUT;
+	reg_mprj_io_37 = GPIO_MODE_USER_STD_INPUT_PULLDOWN;
+    // Initiate the serial transfer to configure IO
+    reg_mprj_xfer = 1;
+    while (reg_mprj_xfer == 1);
+#ifdef RAM_DEBUG
+    reg_mprj_datah = (1 << 16);
+#else
+	reg_mprj_datah = 0;
+#endif
     reg_mprj_datal = 0;
 }
 
@@ -299,8 +365,18 @@ void delay(const uint32_t d) {
    }
 }
 
-void main()
-{
+#undef INTERNAL_RAM
+//#define debug_reg_base 0b000010000 //Normal IOD/IOC pins
+//#define debug_reg_base 0b000010010 //Debug Carries
+#define debug_reg_base 0b000010001 //Debug Condition Code
+
+#ifdef INTERNAL_RAM
+#define debug_reg_base_actual (debug_reg_base | (1 << 8))
+#else
+#define debug_reg_base_actual (debug_reg_base)
+#endif
+
+void main() {
 	int i, j, k;
 
     reg_gpio_mode1 = 1;
@@ -311,36 +387,70 @@ void main()
 	reg_spictrl = (1 << 31) | (2 << 16); //Less wait states
     reg_uart_enable = 0;
     reg_wb_enable = 1;
+    
+    // Configure All LA probes as inputs to the cpu
+	reg_la0_oenb = reg_la0_iena = 0x00000000;    // [31:0]
+	reg_la1_oenb = reg_la1_iena = 0x00000000;    // [63:32]
+	reg_la2_oenb = reg_la2_iena = 0x00000000;    // [95:64]
+	reg_la3_oenb = reg_la3_iena = 0x00000000;    // [127:96]
 	
 	if(reg_hkspi_user_id == 0x5EEC8018) {
+		reg_gpio_out = 1;
 		//AS2650v2
-		uint32_t debug_reg_base;
-		//debug_reg_base = 0b100101000; //Normal IOD/IOC pins
-		//debug_reg_base = 0b100101010; //Debug Carries
-		debug_reg_base = 0b100100001; //Debug Condition Code
+		reg_spi_enable = 0;
+		reg_mprj_debug_opts = debug_reg_base_actual | (1 << 5); //Force design reset
+#ifdef RAM_DEBUG
+		configure_io_ramwrite();
+		uint32_t base = 0;
 		
-		reg_mprj_debug_opts = debug_reg_base | (1 << 4); //Force design reset
+		/*while(1) {
+			reg_mprj_datal = (1 << 15) | (1 << 16) | (base << 5) | (1 << 13) | (1 << 14);
+			reg_mprj_datal = (1 << 15) | (1 << 16) | (base << 5);
+			base++;
+			base &= 0xFF;
+			delay(200000);
+		}*/
+		
+		for(uint32_t i = 0; i < pgm_len+pgm_len; i++) {
+			uint32_t pgmval = pgm[i>>1];
+			if((i & 1) == 0) pgmval = pgmval & 0xFF;
+			else pgmval = pgmval >> 8;
+			
+			base = (1 << 15) | (1 << 16) | ((i & 0xFF) << 5);
+			reg_mprj_datal = base;
+			reg_mprj_datal = base | (1 << 13);
+			reg_mprj_datal = base;
+			base = (1 << 15) | (1 << 16) | (((i >> 8) & 0xFF) << 5);
+			reg_mprj_datal = base;
+			reg_mprj_datal = base | (1 << 14);
+			reg_mprj_datal = base;
+			
+			base = (1 << 15) | (pgmval << 5);
+			reg_mprj_datal = base | (1 << 16);
+			reg_mprj_datal = base;
+			reg_mprj_datal = base | (1 << 16);
+		}
+		reg_mprj_rom_opts_1 = 0;
+		reg_mprj_rom_opts_2 = 0;
 		configure_io_as2650();
-		reg_mprj_rom_opts_1 = 4095 << 16;
+		reg_mprj_debug_opts = debug_reg_base_actual; //Release reset
+#else
+		configure_io_as2650();
+		reg_mprj_rom_opts_1 = 8184 << 16;
 		reg_mprj_rom_opts_2 = (1 << 31); //Enable bootstrap ROM with PB0 used for spiflash CS
-		reg_mprj_debug_opts = debug_reg_base; //Release reset control to mprj_io0
+		reg_mprj_debug_opts = debug_reg_base_actual; //Release reset
+#endif
 		while(1) {
-			reg_gpio_out = 1; // OFF
-			delay(10000000);
-			reg_gpio_out = 0;  // ON
-			delay(20000000);
+			reg_gpio_out = 1; // ON
+			delay(2000000);
+			reg_gpio_out = 0;  // OFF
+			delay(28000000);
 		}
 	}
 	
 	blank_io();
 	uint32_t sel = (reg_mprj_datah >> 4) & 3;
     configure_io(sel, 0);
-
-    // Configure All LA probes as inputs to the cpu
-	reg_la0_oenb = reg_la0_iena = 0x00000000;    // [31:0]
-	reg_la1_oenb = reg_la1_iena = 0x00000000;    // [63:32]
-	reg_la2_oenb = reg_la2_iena = 0x00000000;    // [95:64]
-	reg_la3_oenb = reg_la3_iena = 0x00000000;    // [127:96]
 
 	switch(sel) {
 		case SEL_SID:

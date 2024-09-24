@@ -54,8 +54,9 @@ int main(int argc, char **argv) {
 	}
 	fclose(infile);
 	memset(buff, 0, 128);
-	while(total_written != 65536) {
-		total_written += fwrite(buff, 1, 65536 - total_written < 128 ? 65536 - total_written : 128, outfile);
+	int targ_len = 65536;
+	while(total_written != targ_len) {
+		total_written += fwrite(buff, 1, targ_len - total_written < 128 ? targ_len - total_written : 128, outfile);
 	}
 	fclose(outfile);
 	return 0;

@@ -19,10 +19,11 @@ wire [37:0] io_out;
 wire [37:0] io_oeb;
 
 assign io_in[0] = rst_n;
-assign io_in[4:1] = 0;
-assign io_in[36:13] = 0;
+assign io_in[4:1] = 4'h8;
+assign io_in[28:13] = 0;
+assign io_in[36:30] = 0;
 
-wire ROM_CS = io_out[34];
+wire ROM_CS = io_out[27];
 wire SCLK = io_out[35];
 wire SDO = io_out[36];
 wire SDI;
@@ -33,6 +34,8 @@ wire WEb = io_out[16];
 wire IOD = io_out[17];
 wire IOC = io_out[18];
 wire [7:0] bus_out = io_out[12:5];
+
+assign io_in[29] = SCLK;
 
 reg [15:0] addr_latch = 0;
 
@@ -62,17 +65,21 @@ end
 		$dumpvars(0, tb);
 end*/
 
+reg flag_edge = 0;
 reg tracing = 0;
-always @(posedge flag) begin
-	if(tracing) $finish;
-	else begin
-		tracing <= 1;
-`ifdef TRACE_ON
-		$display("Tracing...");
-		$dumpfile("tb.vcd");
-		$dumpvars(0, tb);
-		#1;
-`endif
+always @(posedge clk) begin
+	flag_edge <= flag;
+	if(!flag_edge && flag) begin
+		if(tracing) begin
+			$finish;
+		end else begin
+			tracing <= 1;
+	`ifdef TRACE_ON
+			$display("Tracing...");
+			$dumpfile("tb.vcd");
+			$dumpvars(0, tb);
+	`endif
+		end
 	end
 end
 

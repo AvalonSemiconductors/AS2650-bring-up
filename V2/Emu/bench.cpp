@@ -58,11 +58,11 @@ int main(int argc, char** argv, char** env) {
 	uint32_t debug_reg_base = 0b000100001;
 	wbs_write(reg_mprj_debug_opts, debug_reg_base | (1 << 4));
 	wbs_write(reg_mprj_counter, 0x00889900);
-	wbs_write(reg_mprj_rom_opts_2, 0x80000007);
-	wbs_write(reg_mprj_rom_opts_1, 0x0FFF0000);
+	wbs_write(reg_mprj_rom_opts_2, 0x80000000);
+	wbs_write(reg_mprj_rom_opts_1, 0x1FFF0000);
 	wbs_write(reg_mprj_debug_opts, debug_reg_base);
 	unsigned int counter = 0;
-	while(!Verilated::gotFinish() && counter < 3200000) {
+	while(!Verilated::gotFinish() && counter < 100000000) {
 		counter++;
 		for(int i = 0; i < 6; i++) {
 			Verilated::timeInc(1);

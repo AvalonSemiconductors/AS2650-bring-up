@@ -7,7 +7,7 @@ public class ToVerilogHex {
 				System.out.println("ToVerilogHex [infile] [outfile]");
 				System.exit(1);
 			}
-			int limit = 512*1024;
+			int limit = 8*1024*1024;
 			if(args.length >= 3) limit = Integer.parseInt(args[2]);
 			byte[] image = new byte[limit];
 			FileInputStream fis = new FileInputStream(new File(args[0]));

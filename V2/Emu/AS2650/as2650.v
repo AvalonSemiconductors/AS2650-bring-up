@@ -493,7 +493,7 @@ always @(posedge clk) begin
 					if(instruction == 8'h1F) begin
 						cpu_hidden_rom_enable <= 1'b0;
 `ifdef BENCH
-						$display("Bootstrap ROM done!");
+						//$display("Bootstrap ROM done!");
 		//$display("Tracing...");
 		//$dumpfile("tb.vcd");
 		//$dumpvars(0, tb);
