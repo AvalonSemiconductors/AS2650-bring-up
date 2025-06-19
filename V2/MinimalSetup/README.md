@@ -15,4 +15,4 @@ The "KiCad" directory contains a KiCad schematic showing the required hardware s
 
 To assemble the example program, simply navigate to "ExamplePGM" and do `make`. If successful, running `make flash` or `make flash_fixed` can be used to flash the resulting file, and the prepared spiflash put back into the breadboard circuit.
 
-Powering up the board should now cause the AS2650v2 to bootload from the spiflash and start running the example program. The program blinks the "flag" output, which is visible as one of the two LEDs on the breakout, and counts up on the PORTA pins. It also generates UART frames on PA1/TXD at a baudrate of 115200 if the chip is clocked at 50MHz.
+Powering up the board should now cause the AS2650v2 to bootload from the spiflash and start running the example program. The program blinks the "flag" output, which is visible as one of the two LEDs on the breakout, and counts up on the PORTA pins. It also generates UART frames on PA1/TXD at a baudrate of 115200 if the chip is clocked at 15MHz.

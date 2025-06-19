@@ -75,10 +75,10 @@ start:
 	wrte,r0 PW1
 	wrte,r0 PW2
 	
-	; UART clock div to 115200 @ 50MHz
-	lodi,r0 181
+	; UART clock div to 115200 @ 15MHz
+	lodi,r0 132
 	wrte,r0 UDIV_LO
-	lodi,r0 1
+	lodi,r0 0
 	wrte,r0 UDIV_HI
 	; SPI clock div to 5 clocks
 	lodi,r0 4

@@ -2621,7 +2621,7 @@
 				)
 			)
 		)
-		(property "Value" "max. 50MHz"
+		(property "Value" "15MHz"
 			(at 102.87 26.5998 0)
 			(effects
 				(font

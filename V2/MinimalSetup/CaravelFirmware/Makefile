@@ -32,11 +32,11 @@ bin:  ${PATTERN:=.bin}
 	$(TOOLCHAIN_PATH)$(TOOLCHAIN_PREFIX)-objcopy -O binary $< $@
 
 flash: blink.bin
-	java ../../Utils/ExpandROM.java $@ 131072
+	java ../../Utils/ExpandROM.java $< 131072
 	sudo flashrom --programmer ch341a_spi --write expanded.bin
 
 flash_fixed: blink.bin
-	java ../../Utils/ExpandROM.java $@ 4194304
+	java ../../Utils/ExpandROM.java $< 4194304
 	sudo flashrom --programmer ch341a_spi --chip "W25Q32BV/W25Q32CV/W25Q32DV" --write expanded.bin
 
 # ---- Clean ----
