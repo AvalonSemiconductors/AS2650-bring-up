@@ -1,4 +1,4 @@
-; Needs to be clocked via a 27MHz crystal, or you can adjust the timer values below
+; Needs to be clocked via a 40MHz crystal, or you can adjust the timer values below
 
 DDRA equ 0
 DDRB equ 1
@@ -95,9 +95,9 @@ programentry:
 	wrte,r0 T0PRE_LO
 	lodi,r0 0
 	wrte,r0 T0PRE_HI
-	lodi,r0 56
+	lodi,r0 74
 	wrte,r0 T0TOP_LO
-	lodi,r0 0 ; 2
+	lodi,r0 3
 	wrte,r0 T0TOP_HI
 	
 	lodi,r1 itable>>8
@@ -242,6 +242,31 @@ vsync_cont:
 	rete,un
 
 hsync_del:
+	nop
+	nop
+	nop
+	nop
+	nop
+	nop
+	nop
+	nop
+	nop
+	nop
+	nop
+	nop
+	nop
+	nop
+	nop
+	nop
+	nop
+	nop
+	nop
+	nop
+	nop
+	nop
+	nop
+	nop
+	nop
 	nop
 	nop
 	nop
