@@ -122,9 +122,9 @@ loop:
 	stra,r0 line_counter+1
 	
 	loda,r0 pixelValid
-	comi,r0 77
+	comi,r0 20
 	bcfr,lt no_pixels
-	lodi,r0 25
+	lodi,r0 44
 short_del_1:
 	bdrr,r0 short_del_1
 	; Pixel on
@@ -161,9 +161,9 @@ not_over_256:
 	lodi,r0 244
 	comz,r3
 	bctr,eq is_line_244
-	lodi,r0 25
+	lodi,r0 200
 	comz,r3
-	bctr,eq is_line_25
+	bctr,eq is_line_200
 
 	bcta,un loop
 
@@ -192,7 +192,7 @@ is_line_250:
 is_line_244:
 	bcta,un loop
 
-is_line_25:
+is_line_200:
 	eorz,r0
 	stra,r0 pixelValid
 	bcta,un loop
